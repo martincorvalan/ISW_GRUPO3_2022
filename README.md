@@ -13,6 +13,6 @@
 │   └── No Evaluables
 │       └── TP2
 │
-├── Lineamientos             #Lineamientos del repositorio
+├── Lin           #Lineamientos del repositorio
 │
 └── README.
