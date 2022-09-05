@@ -14,12 +14,14 @@ Sator Tomas - 79675
     
 ## Estructura del Repositorio
    
-    ISW_GRUPO3_2022
+----ISW_GRUPO3_2022
     ├───Clases
     │   ├───Practico
-    │   │   └───GuiaTrabajosPracticos
+    │   │   └───TrabajosPracticos
     │   │       ├───Evaluables
+    │   │        |             └─TP*
     │   │       └───NoEvaluables
+    │   │                     └─TP*
     │   └───Teorico
     │       ├───Resumenes
     │       └───TrabajosConceptuales
