@@ -12,7 +12,7 @@ Perlo Matias - 83723
 
 Sator Tomas - 79675
     
-### Estructura del Repositorio
+## Estructura del Repositorio
 
     ISW_GRUPO3_2022
     ├───Clases
