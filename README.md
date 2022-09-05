@@ -19,9 +19,9 @@ Sator Tomas - 79675
     │   ├───Practico
     │   │   └───TrabajosPracticos
     │   │       ├───Evaluables
-    │   │        |             └─TP*
+    │   │       |     └─TP*
     │   │       └───NoEvaluables
-    │   │                     └─TP*
+    │   │             └─TP*
     │   └───Teorico
     │       ├───Resumenes
     │       └───TrabajosConceptuales
