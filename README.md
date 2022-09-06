@@ -28,3 +28,7 @@ Sator Tomas - 79675
     └───MaterialCatedra
         ├───Bibliografia
         └───Presentaciones
+
+**ACLARACION**  
+
+Los archivos isw.docx son "Archivos Basura" que se utilizan unicamente con el fin de poder visualizar la estructura interna del repositorio
