@@ -1,0 +1,545 @@
+<div class="container" id="body">
+  <main>
+    <!-- logo de la empresa -->
+    <div class="text-center">
+      <div class="d-block mb-4">
+        <img
+          class="d-inline"
+          src="../../../assets/brand/deliveryeat-logo.svg"
+          alt=""
+          width="25"
+          height="25"
+        />
+        <div
+          class="d-inline txt-logo"
+          style="margin: 0; vertical-align: middle"
+        >
+          Delivery Eat
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <!-- campos de producto y envio -->
+    <div *ngIf="ocultar" class="py-5 col-md-12 col-lg-12">
+      <h2 class="text-center jedi" style="margin-top: -40px">Formulario de Pedido</h2>
+      <form [formGroup]="forma" id="formulario">
+
+        <p class="mb-3" style="margin: 0">
+          Tipo de Pedido: <span>lo que sea</span>
+        </p>
+        <div class="mb-4">
+          <div class="col-sm-12 input-group mb-2">
+            <label
+              for="inputArchivo"
+              class="btn btn-outline-secondary"
+              id="slc-archivo"
+            >
+              Seleccionar Archivo
+              <input
+                id="inputArchivo"
+                type="file"
+                accept=".png, .jpg, .jpeg, .gif"
+                style="display: none"
+                (change)="guardarArchivo($event)"
+              />
+            </label>
+            <input
+              id="imageName"
+              type="text"
+              class="form-control text-muted"
+              value="{{ imagen?.name || 'No se seleccionó ningun archivo' }}"
+              [class.is-invalid]="imagenNoValida"
+              disabled
+            />
+          </div>
+          <small *ngIf="imagenNoValida" class="text-danger">
+            Debe ingresar una imagen de menos de 5MB.
+          </small>
+        </div>
+
+        <div class="col-sm-12 mb-2">
+          <span>Descripcion</span>
+          <textarea
+            class="form-control bg-form"
+            aria-label="With textarea"
+            formControlName="descripcion"
+            [class.is-invalid]="descripcionNoValida"
+          ></textarea>
+          <small *ngIf="descripcionNoValida" class="text-danger">
+            Ingrese como maximo 420 caracteres
+          </small>
+        </div>
+
+        <div class="col-sm-12 mb-2">
+          <span class="">Ciudad</span>
+          <select
+            class="form-select bg-form"
+            formControlName="ciudad"
+            [class.is-invalid]="campoNoValido('ciudad')"
+          >
+            <option selected></option>
+            <option value="0">Carlos Paz</option>
+            <option value="1">Cordoba</option>
+            <option value="2">Villa Allende</option>
+            <option value="3">Unquillo</option>
+          </select>
+          <small *ngIf="campoNoValido('ciudad')" class="text-danger">
+            Ingrese por favor una ciudad
+          </small>
+        </div>
+
+        <hr class="my-4" />
+        <h4 class="mb-3">Direccion Comercio</h4>
+
+        <div class="row">
+          <div class="col-md-6">
+            <span>Calle</span>
+            <input
+              type="text"
+              class="form-control bg-form"
+              name="calleComercio"
+              formControlName="calleComercio"
+              [class.is-invalid]="campoNoValido('calleComercio')"
+            />
+            <small *ngIf="campoNoValido('calleComercio')" class="text-danger">
+              Ingrese por favor una calle
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <span class="form-label">Nro</span>
+            <input
+              type="text"
+              class="form-control bg-form"
+              id="zip"
+              placeholder=""
+              name="numercoComercio"
+              formControlName="numeroComercio"
+              [class.is-invalid]="campoNoValido('NumeroComercio')"
+            />
+            <small *ngIf="campoNoValido('numeroComercio')" class="text-danger">
+              Ingrese por favor un numero
+            </small>
+          </div>
+        </div>
+
+        <div class="col-sm-12 mb-2">
+          <span>Referencia</span>
+          <textarea maxlength="420"
+            class="form-control bg-form"
+            aria-label="With textarea"
+            name="referenciaComercio"
+            formControlName="referenciaComercio"
+            [class.is-invalid]="campoNoValido('referenciaComercio')"
+          ></textarea>
+        </div>
+
+        <hr class="my-4" />
+        <h4 class="mb-3">Direccion Entrega</h4>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="state" class="form-label">Calle</label>
+            <input
+              type="text"
+              class="form-control bg-form"
+              name="calleEntrega"
+              formControlName="calleEntrega"
+              id="calleEntrega"
+              [class.is-invalid]="campoNoValido('calleEntrega')"
+            />
+            <small *ngIf="campoNoValido('calleEntrega')" class="text-danger">
+              Ingrese por favor un calle destino
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label for="zip" class="form-label">Nro</label>
+            <input
+              type="text"
+              class="form-control bg-form"
+              id="zip"
+              placeholder=""
+              name="numeroEntrega"
+              formControlName="numeroEntrega"
+              [class.is-invalid]="campoNoValido('numeroEntrega')"
+            />
+            <small *ngIf="campoNoValido('numeroEntrega')" class="text-danger">
+              Ingrese por favor un numero
+            </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label for="email" class="form-label">Piso</label>
+            <input
+              type="text"
+              class="form-control bg-form"
+              name="pisoEntrega"
+              formControlName="pisoEntrega"
+              [class.is-invalid]="campoNoValido('pisoEntrega')"
+            />
+            <small *ngIf="campoNoValido('pisoEntrega')" class="text-danger">
+              Ingrese por favor un numero
+            </small>
+          </div>
+
+          <div class="col-6">
+            <label for="address" class="form-label">Depto</label>
+            <input
+              type="text"
+              class="form-control bg-form"
+              name="deptoEntrega"
+              formControlName="deptoEntrega"
+              [class.is-invalid]="campoNoValido('deptoEntrega')"
+            />
+            <div class="invalid-feedback">
+              Please enter your shipping address.
+            </div>
+          </div>
+
+          <div class="col-sm-12 mb-2">
+            <span>Referencia</span>
+            <textarea maxlength="420"
+              class="form-control bg-form"
+              aria-label="With textarea"
+            ></textarea>
+          </div>
+        </div>
+
+        <button
+          type="enviar"
+          id="#btnConfirmarDestino"
+          class="w-100 btn btn-primary btn-lg btn-confirmar"
+          (click)="confirmarDestino()"
+        >
+          Confirmar Destino
+        </button>
+      </form>
+    </div>
+
+    <!-- campos de forma de pago y confirmacion -->
+    <div *ngIf="precio != 0" class="mb-4">
+      <div class="row">
+        <div class="d-flex justify-content-center">
+          <!-- <h2 class="jedi" >El precio es : <span style="font-family: Comic Sans"> <b>$</b> </span> {{ precio }}.00</h2> -->
+          <h2 class="jedi" >El precio es : $ {{ precio }}.00</h2>
+        </div>
+      </div>
+
+      <h4 class="mb-3">Forma de Pago</h4>
+
+      <fieldset>
+        <div class="form-check">
+          <label class="form-check-label" for="radio-tarjeta"
+            >Tarjeta de Credito / Debito</label
+          >
+          <input
+            type="radio"
+            name="formaPago"
+            value="1"
+            id="radio-tarjeta"
+            class="form-check-input radio-btn-form"
+            (click)="eligeTarjeta($event)"
+          />
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="radio-efectivo">Efectivo</label>
+          <input
+            type="radio"
+            name="formaPago"
+            value="2"
+            id="radio-efectivo"
+            class="form-check-input radio-btn-form"
+            (click)="eligeEfectivo()"
+          />
+        </div>
+      </fieldset>
+
+      <hr class="my-4" />
+
+      <!-- tarjeta de credito -->
+      <div class="row gy-3" *ngIf="formaPago == 'tarjeta'">
+        <form action="" [formGroup]="formTarjeta">
+          <h4 class="mb-3">Datos de Tarjeta</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Nombre</label>
+              <input
+                type="text"
+                class="form-control bg-form"
+                formControlName="nombreTarjeta"
+                [class.is-invalid]="campoNoValidoTarjeta('nombreTarjeta')"
+              />
+             
+              <small
+                *ngIf="campoNoValidoTarjeta('nombreTarjeta')"
+                class="text-danger"
+              >
+                Ingrese el nombre que figura en la tarjeta
+            </small>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label"
+                >Numero de la Tarjeta
+              </label>
+              <input
+                type="text"
+                class="form-control bg-form"
+                id="cc-number"
+                formControlName="numeroTarjeta"
+                [class.is-invalid]="campoNoValidoTarjeta('numeroTarjeta')"
+              />
+              <div>
+                <img
+                  class="d-inline"
+                  src="../../../assets/brand/mastercard.svg"
+                  alt=""
+                  width="25"
+                  height="25"
+                />
+                <img
+                  class="d-inline"
+                  src="../../../assets/brand/visa.svg"
+                  alt=""
+                  width="25"
+                  height="25"
+                />
+              </div>
+              <div
+                *ngIf="campoNoValidoTarjeta('numeroTarjeta')"
+                class="text-danger"
+              >
+                Numero de Tarjeta Invalido
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label class="form-label">Fecha Exp.</label>
+              <input
+                type="month"
+                class="form-control bg-form"
+                id="start"
+                name="fechaexpiracion"
+                min="2022-08"
+                max="2030-08"
+                formControlName="fechaexpiracion"
+                [class.is-invalid]="campoNoValidoTarjeta('fechaexpiracion')"
+              />
+
+              <small class="text-muted">Fecha de Expiracion de tarjeta</small>
+              <div
+                *ngIf="campoNoValidoTarjeta('fechaexpiracion')"
+                class="text-danger"
+              >
+                Campo Invalido
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input
+                type="text"
+                class="form-control bg-form"
+                formControlName="cvv"
+                [class.is-invalid]="campoNoValidoTarjeta('cvv')"
+              />
+              <div *ngIf="campoNoValidoTarjeta('cvv')" class="text-danger">
+                Campo Invalido
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <h4>Modo de Entrega</h4>
+          <fieldset>
+            <div class="my-3">
+              <div class="form-check">
+                <input
+                  type="radio"
+                  name="formaEntrega"
+                  value="1"
+                  formControlName="formaEntrega"
+                  class="form-check-input radio-btn-form"
+                  (click)="modoEntrega('antesposible')"
+                />
+                <label class="form-check-label" for="credit"
+                  >Lo Antes Posible</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  type="radio"
+                  name="formaEntrega"
+                  formControlName="formaEntrega"
+                  value="2"
+                  class="form-check-input radio-btn-form"
+                  (click)="modoEntrega('programado')"
+                />
+                <label class="form-check-label" for="paypal"
+                  >Entrega Programada</label
+                >
+              </div>
+            </div>
+          </fieldset>
+
+          <div *ngIf="this.formTarjeta.get('formaEntrega')?.value == 2">
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  class="form-control bg-form"
+                  type="date"
+                  min="{{ diaActual }}"
+                  max="{{ diaMaximo }}"
+                  formControlName="fechaEntregaPedido"
+                  name="fechaEntregaPedido"
+                  id="fechaEntrega"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  class="form-control bg-form col-md-6"
+                  type="time"
+                  formControlName="horaEntrega"
+                  name="horaEntrega"
+                  id="horaEntrega"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <button
+          class="w-100 btn btn-primary btn-lg btn-confirmar"
+          (click)="confirmarPedidoTarjeta()"
+        >
+          Confirmar Pedido
+        </button>
+      </div>
+
+      <!-- efectivo -->
+      <div *ngIf="formaPago == 'efectivo'">
+        <h4 class="mb-3">Pago en Efectivo</h4>
+        <form [formGroup]="formEfectivo">
+          <div class="col-md-3">
+            <label class="form-label">Monto</label>
+            <input
+              type="text"
+              class="form-control bg-form"
+              formControlName="monto"
+              [class.is-invalid]="campoEfectivo()"
+              #inputMonto
+            />
+            <div
+              *ngIf="inputMonto.value != '' && validarMonto()"
+              class="text-danger"
+            >
+              Monto Inferior al necesario
+            </div>
+            <div *ngIf="campoEfectivo()" class="text-danger">
+              Ingrese un monto
+            </div>
+          </div>
+
+          <hr />
+          <h4>Modo de Entrega</h4>
+          <fieldset>
+            <div class="my-3">
+              <div class="form-check">
+                <input
+                  type="radio"
+                  id="rdbAntesPosible"
+                  name="formaEntrega"
+                  formControlName="formaEntrega"
+                  value="1"
+                  class="form-check-input radio-btn-form"
+                />
+                <label class="form-check-label" for="credit"
+                  >Lo Antes Posible</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  type="radio"
+                  name="formaEntrega"
+                  id="rdbProgramada"
+                  formControlName="formaEntrega"
+                  value="2"
+                  class="form-check-input radio-btn-form"
+                  (click)="eligeEfectivo()"
+                />
+                <label class="form-check-label" for="paypal"
+                  >Entrega Programada</label
+                >
+              </div>
+            </div>
+          </fieldset>
+
+          <div *ngIf="this.formEfectivo.get('formaEntrega')?.value == 2">
+            <input
+              class="form-control bg-form"
+              type="date"
+              min="{{ diaActual }}"
+              max="{{ diaMaximo }}"
+              formControlName="fechaEntregaPedido"
+              name="fechaEntregaPedido"
+              id="fechaEntrega"
+            />
+            <input
+              class="form-control bg-form"
+              type="time"
+              formControlName="horaEntrega"
+              name="horaEntrega"
+              id="horaEntrega"
+            />
+          </div>
+          <button
+            class="w-100 btn btn-primary btn-lg btn-confirmar"
+            (click)="confirmarPedidoEfectivo()"
+          >
+            Confirmar Pedido
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- volver a los campos anteriores -->
+    <div *ngIf="ocultar == false" class="container">
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg"
+        (click)="volverMostrarFormulario()"
+      >
+        Volver
+      </button>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <div class="text-center">
+      <div class="d-block">
+        <img
+          class="d-inline"
+          src="../../../assets/brand/deliveryeat-logo.svg"
+          alt=""
+          width="25"
+          height="25"
+        />
+        <div
+          class="d-inline txt-logo"
+          style="margin: 0; vertical-align: middle"
+        >
+          Delivery Eat
+        </div>
+      </div>
+    </div>
+    <p class="mb-1">&copy; 2017–2022</p>
+  </footer>
+</div>
+

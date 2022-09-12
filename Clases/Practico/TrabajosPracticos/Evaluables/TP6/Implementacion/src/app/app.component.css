@@ -1,0 +1,117 @@
+body {
+    background-image: linear-gradient(to bottom, #F9C74F, #F3722C);
+  }
+
+  #body {
+    background-color: white;
+    padding: 20px;
+  }
+
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
+
+  .bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  }
+
+  @font-face {
+    font-family: 'Fredoka';
+    src: url('../assets/fonts/fredoka/FredokaOne-Regular.ttf');
+  }
+
+  .txt-logo {
+    font-family: 'Fredoka';
+    background-color: #f3ec78;
+    background-image: linear-gradient(45deg, #f3ec78, #af4261);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+
+.tarjeta {
+  background-color: #fff;
+  margin: 0;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+#slc-archivo{
+  background-color: #C9A227;
+  border: 0;
+  color: white;
+}
+
+.bg-form {
+  /* background-color: #C9A227; */
+  border-color: #C9A227;
+  /* color: white; */
+}
+
+.radio-btn-form:checked[type=radio] {
+  background-color: #C9A227;
+  border-color: #C9A227;
+}
+
+.btn-confirmar {
+  background-color: #F3722C;
+  border-color: #F3722C;
+}
+
+.btn-confirmar:hover{
+  background-color: #F8961E;
+  border-color: #F8961E;
+}
