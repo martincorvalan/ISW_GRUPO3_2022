@@ -1,241 +1,354 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid" style="background: #f0c851">
+    <a class="navbar-brand" style="background: #f0c851; border-radius: 13pxx"
+      >Delivery-Eat</a
+    >
+    <div class="d-flex">
+      <input
+        class="form-control me-2"
+        type="Buscar"
+        placeholder="Search"
+        aria-label="Search"
+        style="background: #f7e19c"
+      />
+      <button class="btn btn-warning" type="submit">Buscar</button>
+    </div>
+  </div>
+</nav>
 
-    <nav class="navbar navbar-light bg-light "  >
-        <div class="container-fluid" style="background: #f0c851" >
-          <a class="navbar-brand" style="background: #f0c851; border-radius: 13pxx;">Delivery-Eat</a>
-          <div class="d-flex" >
-            <input class="form-control me-2" type="Buscar" placeholder="Search" aria-label="Search" style="background: #F7E19C">
-            <button class="btn btn-warning" type="submit">Buscar</button>
-          </div>
+<div *ngIf="ocultar" class="col">
+  <form
+    [formGroup]="forma"
+    (ngSubmit)="guardar()"
+    id="formulario"
+    style="background-color: #f2e3b6; height: 100%; width: 100%"
+  >
+    <div
+      class="container"
+      style="
+        margin-left: 17px;
+        margin-top: 7px;
+        background: #ffb06d;
+        padding: 7px;
+      "
+    >
+      <div class="mb-3 row">
+        <label for="inputPassword" class="col-sm-2 col-form-label"
+          >Descripcion:</label
+        >
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control input-form"
+            name="descripcion"
+            formControlName="descripcion"
+            [class.is-invalid]="descripcionNoValida"
+          />
+          <small *ngIf="descripcionNoValida" class="text-danger">
+            Ingrese como maximo 20 caracteres
+          </small>
         </div>
-    </nav>
-    
-    <div *ngIf="ocultar" class="col"> 
-    <form    [formGroup]="forma" (ngSubmit)="guardar()"  id="formulario"   style="background-color: #F2E3B6;height: 100%;width: 100%;">
-      <div class="container" style="margin-left: 17px;margin-top: 7px; background: #FFB06D; padding: 7px;">
-    
-        <div class="mb-3 row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Descripcion:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control input-form" name="descripcion" formControlName="descripcion" [class.is-invalid]="descripcionNoValida" >
-              <small *ngIf="descripcionNoValida" class="text-danger">
-                Ingrese como maximo 20 caracteres
-              </small>
+      </div>
 
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="d-flex justify-content-center">
-                <input type="archivo" type="file" accept=".jpg, .jpeg, .png">
-            </div>
-          </div>
-          
-          <br>
-          <label for="inputPassword" class="col-sm-2 col-form-label" style="margin-top: 10px">Ciudad:</label>
-          <select class="form-select" aria-label="Default select example" name="ciudad" formControlName="ciudad" [class.is-invalid]="campoNoValido('ciudad')">
-           
+      <div class="row">
+        <div class="d-flex justify-content-center">
+          <input type="archivo" type="file" accept=".jpg, .jpeg, .png" />
+        </div>
+      </div>
+
+      <br />
+      <label
+        for="inputPassword"
+        class="col-sm-2 col-form-label"
+        style="margin-top: 10px"
+        >Ciudad:</label
+      >
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        name="ciudad"
+        formControlName="ciudad"
+        [class.is-invalid]="campoNoValido('ciudad')"
+      >
+        <option value="1">Alta Gracia</option>
+        <option value="2">Cordoba</option>
+        <option value="3">Carlos Paz</option>
+      </select>
+      <small *ngIf="campoNoValido('ciudad')" class="text-danger">
+        Ingrese por favor una ciudad
+      </small>
+    </div>
+
+    <div
+      class="container"
+      style="
+        margin-left: 17px;
+        margin-top: 7px;
+        background: #ffb06d;
+        padding: 7px;
+      "
+    >
+      <div class="row">
+        <div class="col">Direccion Comercio</div>
+        <hr />
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Ciudad:</label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="ciudadComercio"
+            formControlName="ciudadComercio"
+            [class.is-invalid]="campoNoValido('ciudadComercio')"
+          >
             <option value="1">Alta Gracia</option>
             <option value="2">Cordoba</option>
             <option value="3">Carlos Paz</option>
           </select>
-          <small *ngIf="campoNoValido('ciudad')" class="text-danger">
-            Ingrese por favor una ciudad 
+          <small *ngIf="campoNoValido('ciudadComercio')" class="text-danger">
+            Ingrese por favor una ciudad
           </small>
+        </div>
       </div>
-    
-     <div class="container" style="margin-left: 17px;margin-top: 7px;background: #FFB06D; padding: 7px;">
-        <div class="row">
-            <div class="col">
-                Direccion Comercio
-            </div>
-            <hr>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Ciudad:</label>
-                <select class="form-select" aria-label="Default select example" name="ciudadComercio" formControlName="ciudadComercio" [class.is-invalid]="campoNoValido('ciudadComercio')">
-                 
-                  <option value="1">Alta Gracia</option>
-                  <option value="2">Cordoba</option>
-                  <option value="3">Carlos Paz</option>
-                </select>
-                <small *ngIf="campoNoValido('ciudadComercio')" class="text-danger">
-                    Ingrese por favor una ciudad 
-                  </small>
-            </div>
-            
-        </div>
-    
-      
-    
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Calle:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control input-form" name="calleComercio" formControlName="calleComercio" [class.is-invalid]="campoNoValido('calleComercio')" >
-            </div>
-            <small *ngIf="campoNoValido('calleComercio')" class="text-danger">
-                Ingrese por favor una calle 
-              </small>
-            </div>
-            <div class="col ">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Numero:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form" name="numercoComercio" formControlName="numeroComercio" [class.is-invalid]="campoNoValido('NumeroComercio')" >
-                </div>
-                <small *ngIf="campoNoValido('numeroComercio')" class="text-danger">
-                    Ingrese por favor un numero
-                  </small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Referencia:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form"name="referenciaComercio" formControlName="referenciaComercio" [class.is-invalid]="campoNoValido('referenciaComercio')"  >
-                </div>
-            </div>
-        </div>
-     </div>
-    
-     <div class="container" style="margin-left: 17px;margin-top: 7px;background: #FFB06D;padding: 7px;">
-        <div class="row">
-            <div class="col">
-                Direccion Entrega
-            </div>
-            <hr>
-        </div>
-    
-    
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Ciudad:</label>
-                <select class="form-select" aria-label="Default select example"  name="ciudadEntrega" formControlName="ciudadEntrega" [class.is-invalid]="campoNoValido('ciudadEntrega')">
-                  
-                  <option value="1">Alta Gracia</option>
-                  <option value="2">Cordoba</option>
-                  <option value="3">Carlos Paz</option>
-                </select>
-                <small *ngIf="campoNoValido('ciudadEntrega')" class="text-danger">
-                    Ingrese por favor una ciudad
-                  </small>
-            </div>
-            <div class="col">
-    
-                
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Calle:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form"name="calleEntrega" formControlName="calleEntrega" id="calleEntrega" [class.is-invalid]="campoNoValido('calleEntrega')"  >
-                  <small *ngIf="campoNoValido('calleEntrega')" class="text-danger">
-                    Ingrese por favor un calle destino 
-                  </small>
-                </div>
-    
-            </div>
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Numero:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form" name="numeroEntrega" formControlName="numeroEntrega" [class.is-invalid]="campoNoValido('numeroEntrega')" >
-                </div>
-                <small *ngIf="campoNoValido('numeroEntrega')" class="text-danger">
-                    Ingrese por favor un numero
-                  </small>
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Piso:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form"  name="pisoEntrega" formControlName="pisoEntrega" [class.is-invalid]="campoNoValido('pisoEntrega')" >
-                </div>
-    
-            </div>
-            <div class="col">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Depto:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control input-form" name="deptoEntrega" formControlName="deptoEntrega" [class.is-invalid]="campoNoValido('deptoEntrega')" >
-                </div>
-            </div>
-        </div>
-        
-     
 
-     </div>
-
-     <button type="enviar" ng-click="calcularPrecio()"  style="width: 100%"  id="#btnConfirmarDestino" class="btn btn-warning btn-lg">Confirmar destino  </button> 
-   
-
-    
-     <div class="row">
-        <div class="d-flex justify-content-center">
-            <h2>El precio es : $ {{precio}}</h2> 
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Calle:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="calleComercio"
+              formControlName="calleComercio"
+              [class.is-invalid]="campoNoValido('calleComercio')"
+            />
+          </div>
+          <small *ngIf="campoNoValido('calleComercio')" class="text-danger">
+            Ingrese por favor una calle
+          </small>
         </div>
-     </div>
-     
-     
-      
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Numero:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="numercoComercio"
+              formControlName="numeroComercio"
+              [class.is-invalid]="campoNoValido('NumeroComercio')"
+            />
+          </div>
+          <small *ngIf="campoNoValido('numeroComercio')" class="text-danger">
+            Ingrese por favor un numero
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Referencia:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="referenciaComercio"
+              formControlName="referenciaComercio"
+              [class.is-invalid]="campoNoValido('referenciaComercio')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
 
-    </form>
+    <div
+      class="container"
+      style="
+        margin-left: 17px;
+        margin-top: 7px;
+        background: #ffb06d;
+        padding: 7px;
+      "
+    >
+      <div class="row">
+        <div class="col">Direccion Entrega</div>
+        <hr />
+      </div>
 
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Ciudad:</label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="ciudadEntrega"
+            formControlName="ciudadEntrega"
+            [class.is-invalid]="campoNoValido('ciudadEntrega')"
+          >
+            <option value="1">Alta Gracia</option>
+            <option value="2">Cordoba</option>
+            <option value="3">Carlos Paz</option>
+          </select>
+          <small *ngIf="campoNoValido('ciudadEntrega')" class="text-danger">
+            Ingrese por favor una ciudad
+          </small>
+        </div>
+        <div class="col"></div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Calle:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="calleEntrega"
+              formControlName="calleEntrega"
+              id="calleEntrega"
+              [class.is-invalid]="campoNoValido('calleEntrega')"
+            />
+            <small *ngIf="campoNoValido('calleEntrega')" class="text-danger">
+              Ingrese por favor un calle destino
+            </small>
+          </div>
+        </div>
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Numero:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="numeroEntrega"
+              formControlName="numeroEntrega"
+              [class.is-invalid]="campoNoValido('numeroEntrega')"
+            />
+          </div>
+          <small *ngIf="campoNoValido('numeroEntrega')" class="text-danger">
+            Ingrese por favor un numero
+          </small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Piso:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="pisoEntrega"
+              formControlName="pisoEntrega"
+              [class.is-invalid]="campoNoValido('pisoEntrega')"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <label for="inputPassword" class="col-sm-2 col-form-label"
+            >Depto:</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control input-form"
+              name="deptoEntrega"
+              formControlName="deptoEntrega"
+              [class.is-invalid]="campoNoValido('deptoEntrega')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="enviar"
+      ng-click="calcularPrecio()"
+      style="width: 100%"
+      id="#btnConfirmarDestino"
+      class="btn btn-warning btn-lg"
+    >
+      Confirmar destino
+    </button>
+
+    <div class="row">
+      <div class="d-flex justify-content-center">
+        <h2>El precio es : $ {{precio}}</h2>
+      </div>
+    </div>
+  </form>
 </div>
 
+<hr />
 
-
-    <hr>
-
-   
-     
-
-     
-     
-     
-      <div *ngIf="ocultar==false" class="container">
-        <div class="row">
-        
-            <div class="d-flex justify-content-center">
-                <h2>El precio es : $ {{precio}}</h2> 
-            </div>
-         </div>
-        <button
-      type="button" class="btn btn-secondary btn-lg"   (click)="volverMostrarFormulario()">Volver</button>
-        <div class="row">
-            <div class="col d-flex justify-content-end">
-                <div class="form-check" style="margin-left:20px ">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      De contado
-                    </label>
-                  </div>
-            </div>
-            <div class="col d-flex justify-content-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                     Tarjeta Debito/Credito
-                    </label>
-                  </div>
-            </div>
-        </div>
+<div *ngIf="ocultar==false" class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <h2>El precio es : $ {{precio}}</h2>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn btn-secondary btn-lg"
+    (click)="volverMostrarFormulario()"
+  >
+    Volver
+  </button>
+  <div class="row">
+    <div class="col d-flex justify-content-end">
+      <div class="form-check" style="margin-left: 20px">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="flexRadioDefault"
+          id="flexRadioDefault1"
+        />
+        <label class="form-check-label" for="flexRadioDefault1">
+          De contado
+        </label>
       </div>
-     
-      
+    </div>
+    <div class="col d-flex justify-content-center">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="flexRadioDefault"
+          id="flexRadioDefault2"
+          checked
+        />
+        <label class="form-check-label" for="flexRadioDefault2">
+          Tarjeta Debito/Credito
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-    <hr>
-    <pre>
+<hr />
+<pre>
       Estado del formulario: {{ forma.valid }}
       <br>
       Status: {{ forma.status }}
     </pre>
-    
-    <pre>
+
+<pre>
     
       {{ forma.value | json }}
     
-    </pre>
+    </pre
+>

@@ -23,7 +23,7 @@
     <!-- campos de producto y envio -->
     <div *ngIf="ocultar" class="py-5 col-md-12 col-lg-12">
       <h2 class="text-center jedi" style="margin-top: -40px">Formulario de Pedido</h2>
-      <form [formGroup]="forma" id="formulario">
+      <form [formGroup]="formPedido" id="formulario">
 
         <p class="mb-3" style="margin: 0">
           Tipo de Pedido: <span>lo que sea</span>
@@ -41,7 +41,7 @@
                 type="file"
                 accept=".png, .jpg, .jpeg, .gif"
                 style="display: none"
-                (change)="guardarArchivo($event)"
+                (change)="guardarImagenPedido($event)"
               />
             </label>
             <input
@@ -49,11 +49,11 @@
               type="text"
               class="form-control text-muted"
               value="{{ imagen?.name || 'No se seleccionó ningun archivo' }}"
-              [class.is-invalid]="imagenNoValida"
+              [class.is-invalid]="esImagenNoValida()"
               disabled
             />
           </div>
-          <small *ngIf="imagenNoValida" class="text-danger">
+          <small *ngIf="esImagenNoValida()" class="text-danger">
             Debe ingresar una imagen de menos de 5MB.
           </small>
         </div>
@@ -64,9 +64,9 @@
             class="form-control bg-form"
             aria-label="With textarea"
             formControlName="descripcion"
-            [class.is-invalid]="descripcionNoValida"
+            [class.is-invalid]="esDescripcionPedidoNoValida()"
           ></textarea>
-          <small *ngIf="descripcionNoValida" class="text-danger">
+          <small *ngIf="esDescripcionPedidoNoValida()" class="text-danger">
             Ingrese como maximo 420 caracteres
           </small>
         </div>
@@ -76,7 +76,7 @@
           <select
             class="form-select bg-form"
             formControlName="ciudad"
-            [class.is-invalid]="campoNoValido('ciudad')"
+            [class.is-invalid]="esCampoPedidoNoValido('ciudad')"
           >
             <option selected></option>
             <option value="0">Carlos Paz</option>
@@ -84,7 +84,7 @@
             <option value="2">Villa Allende</option>
             <option value="3">Unquillo</option>
           </select>
-          <small *ngIf="campoNoValido('ciudad')" class="text-danger">
+          <small *ngIf="esCampoPedidoNoValido('ciudad')" class="text-danger">
             Ingrese por favor una ciudad
           </small>
         </div>
@@ -100,9 +100,9 @@
               class="form-control bg-form"
               name="calleComercio"
               formControlName="calleComercio"
-              [class.is-invalid]="campoNoValido('calleComercio')"
+              [class.is-invalid]="esCampoPedidoNoValido('calleComercio')"
             />
-            <small *ngIf="campoNoValido('calleComercio')" class="text-danger">
+            <small *ngIf="esCampoPedidoNoValido('calleComercio')" class="text-danger">
               Ingrese por favor una calle
             </small>
           </div>
@@ -110,15 +110,15 @@
           <div class="col-md-3">
             <span class="form-label">Nro</span>
             <input
-              type="text"
+              type="number"
               class="form-control bg-form"
               id="zip"
               placeholder=""
               name="numercoComercio"
               formControlName="numeroComercio"
-              [class.is-invalid]="campoNoValido('NumeroComercio')"
+              [class.is-invalid]="esCampoPedidoNoValido('NumeroComercio')"
             />
-            <small *ngIf="campoNoValido('numeroComercio')" class="text-danger">
+            <small *ngIf="esCampoPedidoNoValido('numeroComercio')" class="text-danger">
               Ingrese por favor un numero
             </small>
           </div>
@@ -131,7 +131,7 @@
             aria-label="With textarea"
             name="referenciaComercio"
             formControlName="referenciaComercio"
-            [class.is-invalid]="campoNoValido('referenciaComercio')"
+            [class.is-invalid]="esCampoPedidoNoValido('referenciaComercio')"
           ></textarea>
         </div>
 
@@ -147,9 +147,9 @@
               name="calleEntrega"
               formControlName="calleEntrega"
               id="calleEntrega"
-              [class.is-invalid]="campoNoValido('calleEntrega')"
+              [class.is-invalid]="esCampoPedidoNoValido('calleEntrega')"
             />
-            <small *ngIf="campoNoValido('calleEntrega')" class="text-danger">
+            <small *ngIf="esCampoPedidoNoValido('calleEntrega')" class="text-danger">
               Ingrese por favor un calle destino
             </small>
           </div>
@@ -157,15 +157,15 @@
           <div class="col-md-3">
             <label for="zip" class="form-label">Nro</label>
             <input
-              type="text"
+              type="number"
               class="form-control bg-form"
               id="zip"
               placeholder=""
               name="numeroEntrega"
               formControlName="numeroEntrega"
-              [class.is-invalid]="campoNoValido('numeroEntrega')"
+              [class.is-invalid]="esCampoPedidoNoValido('numeroEntrega')"
             />
-            <small *ngIf="campoNoValido('numeroEntrega')" class="text-danger">
+            <small *ngIf="esCampoPedidoNoValido('numeroEntrega')" class="text-danger">
               Ingrese por favor un numero
             </small>
           </div>
@@ -175,13 +175,13 @@
           <div class="col-6">
             <label for="email" class="form-label">Piso</label>
             <input
-              type="text"
+              type="number"
               class="form-control bg-form"
               name="pisoEntrega"
               formControlName="pisoEntrega"
-              [class.is-invalid]="campoNoValido('pisoEntrega')"
+              [class.is-invalid]="esCampoPedidoNoValido('pisoEntrega')"
             />
-            <small *ngIf="campoNoValido('pisoEntrega')" class="text-danger">
+            <small *ngIf="esCampoPedidoNoValido('pisoEntrega')" class="text-danger">
               Ingrese por favor un numero
             </small>
           </div>
@@ -193,7 +193,7 @@
               class="form-control bg-form"
               name="deptoEntrega"
               formControlName="deptoEntrega"
-              [class.is-invalid]="campoNoValido('deptoEntrega')"
+              [class.is-invalid]="esCampoPedidoNoValido('deptoEntrega')"
             />
             <div class="invalid-feedback">
               Please enter your shipping address.
@@ -213,7 +213,7 @@
           type="enviar"
           id="#btnConfirmarDestino"
           class="w-100 btn btn-primary btn-lg btn-confirmar"
-          (click)="confirmarDestino()"
+          (click)="confirmarFormularioDestino()"
         >
           Confirmar Destino
         </button>
@@ -242,7 +242,7 @@
             value="1"
             id="radio-tarjeta"
             class="form-check-input radio-btn-form"
-            (click)="eligeTarjeta($event)"
+            (click)="elegirMetodoPagoTarjeta($event)"
           />
         </div>
 
@@ -254,7 +254,7 @@
             value="2"
             id="radio-efectivo"
             class="form-check-input radio-btn-form"
-            (click)="eligeEfectivo()"
+            (click)="elegirMetodoPagoEfectivo()"
           />
         </div>
       </fieldset>
@@ -272,11 +272,11 @@
                 type="text"
                 class="form-control bg-form"
                 formControlName="nombreTarjeta"
-                [class.is-invalid]="campoNoValidoTarjeta('nombreTarjeta')"
+                [class.is-invalid]="esCampoTarjetaNoValido('nombreTarjeta')"
               />
              
               <small
-                *ngIf="campoNoValidoTarjeta('nombreTarjeta')"
+                *ngIf="esCampoTarjetaNoValido('nombreTarjeta')"
                 class="text-danger"
               >
                 Ingrese el nombre que figura en la tarjeta
@@ -288,11 +288,11 @@
                 >Numero de la Tarjeta
               </label>
               <input
-                type="text"
+                type="number"
                 class="form-control bg-form"
                 id="cc-number"
                 formControlName="numeroTarjeta"
-                [class.is-invalid]="campoNoValidoTarjeta('numeroTarjeta')"
+                [class.is-invalid]="esCampoTarjetaNoValido('numeroTarjeta')"
               />
               <div>
                 <img
@@ -311,7 +311,7 @@
                 />
               </div>
               <div
-                *ngIf="campoNoValidoTarjeta('numeroTarjeta')"
+                *ngIf="esCampoTarjetaNoValido('numeroTarjeta')"
                 class="text-danger"
               >
                 Numero de Tarjeta Invalido
@@ -330,12 +330,12 @@
                 min="2022-08"
                 max="2030-08"
                 formControlName="fechaexpiracion"
-                [class.is-invalid]="campoNoValidoTarjeta('fechaexpiracion')"
+                [class.is-invalid]="esCampoTarjetaNoValido('fechaexpiracion')"
               />
 
               <small class="text-muted">Fecha de Expiracion de tarjeta</small>
               <div
-                *ngIf="campoNoValidoTarjeta('fechaexpiracion')"
+                *ngIf="esCampoTarjetaNoValido('fechaexpiracion')"
                 class="text-danger"
               >
                 Campo Invalido
@@ -348,9 +348,9 @@
                 type="text"
                 class="form-control bg-form"
                 formControlName="cvv"
-                [class.is-invalid]="campoNoValidoTarjeta('cvv')"
+                [class.is-invalid]="esCampoTarjetaNoValido('cvv')"
               />
-              <div *ngIf="campoNoValidoTarjeta('cvv')" class="text-danger">
+              <div *ngIf="esCampoTarjetaNoValido('cvv')" class="text-danger">
                 Campo Invalido
               </div>
             </div>
@@ -367,7 +367,7 @@
                   value="1"
                   formControlName="formaEntrega"
                   class="form-check-input radio-btn-form"
-                  (click)="modoEntrega('antesposible')"
+                  (click)="elegirModoEntrega('antesposible')"
                 />
                 <label class="form-check-label" for="credit"
                   >Lo Antes Posible</label
@@ -380,7 +380,7 @@
                   formControlName="formaEntrega"
                   value="2"
                   class="form-check-input radio-btn-form"
-                  (click)="modoEntrega('programado')"
+                  (click)="elegirModoEntrega('programado')"
                 />
                 <label class="form-check-label" for="paypal"
                   >Entrega Programada</label
@@ -433,16 +433,16 @@
               type="text"
               class="form-control bg-form"
               formControlName="monto"
-              [class.is-invalid]="campoEfectivo()"
+              [class.is-invalid]="esCampoEfectivoNoValido()"
               #inputMonto
             />
             <div
-              *ngIf="inputMonto.value != '' && validarMonto()"
+              *ngIf="inputMonto.value != '' && esMontoIngresadoValido()"
               class="text-danger"
             >
               Monto Inferior al necesario
             </div>
-            <div *ngIf="campoEfectivo()" class="text-danger">
+            <div *ngIf="esCampoEfectivoNoValido()" class="text-danger">
               Ingrese un monto
             </div>
           </div>
@@ -472,7 +472,7 @@
                   formControlName="formaEntrega"
                   value="2"
                   class="form-check-input radio-btn-form"
-                  (click)="eligeEfectivo()"
+                  (click)="elegirMetodoPagoEfectivo()"
                 />
                 <label class="form-check-label" for="paypal"
                   >Entrega Programada</label

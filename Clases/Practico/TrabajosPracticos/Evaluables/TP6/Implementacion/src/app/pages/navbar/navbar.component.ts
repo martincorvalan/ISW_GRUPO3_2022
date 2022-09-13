@@ -8,50 +8,71 @@ import Swal from 'sweetalert2';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+
   // formularios
-  forma: FormGroup;
+  formPedido: FormGroup;
   formTarjeta: FormGroup;
   formEfectivo: FormGroup;
 
   // imagen
-  imagen: File | null = null;
-  imagenCargada = false;
+  imagen: File | null;
+  imagenCargada: boolean;
 
   // precio
-  precio: number = 0;
+  precio: number;
 
   // boleanos
-  calleEntrega = '';
-  ocultar = true;
-  formaPago = '';
-  modo = '';
+  calleEntrega: string;
+  ocultar: boolean;
+  formaPago: string;
+  modo: string;
 
-  // crea un nuevo objeto `Date`
-  today = new Date();
-
-  // `getDate()` devuelve el día del mes (del 1 al 31)
-  day = this.today.getDate();
-
-  // `getMonth()` devuelve el mes (de 0 a 11)
-  month = this.today.getMonth() + 1;
+  // manejo de fecha
+  today: Date;
+  day: number;
+  month: number;
 
   // `getFullYear()` devuelve el año completo
-  year = this.today.getFullYear();
-  dayMax = this.today.getDate() + 7;
-  diaActual = this.year + '-' + this.month + '-' + this.day;
-  diaMaximo = this.year + '-' + this.month + '-' + this.dayMax;
+  year: number;
+  dayMax: number;
+  diaActual: string;
+  diaMaximo: string;
 
   constructor(private fb: FormBuilder) {
+
+    // inicializacion de las variables
+    this.formPedido = this.fb.group({});
+    this.formTarjeta = this.fb.group({});
+    this.formEfectivo = this.fb.group({});
+
+    this.imagen = null;
+    this.imagenCargada = false;
+
+    this.precio = 0;
+
+    this.calleEntrega = '';
+    this.ocultar = true;
+    this.formaPago = '';
+    this.modo = '';
     
+    this.today = new Date();
+    this.day = this.today.getDate();
+    this.month = this.today.getMonth() + 1;
+    
+    this.year = this.today.getFullYear();
+    this.dayMax = this.today.getDate() + 7;
+    this.diaActual = this.year + '-' + this.month + '-' + this.day;
+    this.diaMaximo = this.year + '-' + this.month + '-' + this.dayMax;
+    // ---------------------------------------------------------------
+
     this.precio.toFixed(2);
 
-    this.forma = this.fb.group({
+    this.formPedido = this.fb.group({
       descripcion: [
         '',
         [Validators.required, Validators.maxLength(420), Validators.min(5)],
       ],
       ciudad: ['', Validators.required],
-
       calleComercio: ['', [Validators.required]],
       numeroComercio: [
         '',
@@ -64,7 +85,6 @@ export class NavbarComponent implements OnInit {
         ],
       ],
       referenciaComercio: [''],
-
       calleEntrega: ['', Validators.required],
       numeroEntrega: [
         '',
@@ -76,13 +96,15 @@ export class NavbarComponent implements OnInit {
           Validators.pattern('^[0-9]+$'),
         ],
       ],
-      pisoEntrega: ['',Validators.pattern('^[0-9]+$')],
+      pisoEntrega: ['', Validators.pattern('^[0-9]+$')],
       deptoEntrega: [''],
-      
     });
 
     this.formTarjeta = this.fb.group({
-      nombreTarjeta: ['', [Validators.required,Validators.pattern('[a-zA-Z ]+$')]],
+      nombreTarjeta: [
+        '',
+        [Validators.required, Validators.pattern('[a-zA-Z ]+$')],
+      ],
       numeroTarjeta: [
         '',
         [Validators.required, Validators.pattern('^[45][0-9]{15}$')],
@@ -95,7 +117,10 @@ export class NavbarComponent implements OnInit {
     });
 
     this.formEfectivo = this.fb.group({
-      monto: ['', [Validators.required, Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')]],
+      monto: [
+        '',
+        [Validators.required, Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')],
+      ],
       fechaEntregaPedido: [''],
       horaEntrega: [''],
       formaEntrega: ['', Validators.required],
@@ -133,32 +158,31 @@ export class NavbarComponent implements OnInit {
         }
       }
     }
-
-   
   }
 
   ngOnInit(): void {}
 
-  // get imagenNoValida() {
-  //   return this.forma.get('imagen')?.invalid || this.forma.get('imagen')?.value.size / (1024 * 1024) >= 5;
-  //   // return this.forma.get(campo)?.invalid && this.forma.get(campo)?.touched;
-
-  // }
-
-  eligeTarjeta(event: any) {
+  elegirMetodoPagoTarjeta(event: any): void {
     this.formaPago = 'tarjeta';
 
     this.formEfectivo = this.fb.group({
-      monto: ['', [Validators.required, Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')]],
+      monto: [
+        '',
+        [Validators.required, Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')],
+      ],
       fechaEntregaPedido: [''],
       horaEntrega: [''],
       formaEntrega: ['', Validators.required],
     });
   }
-  eligeEfectivo() {
+
+  elegirMetodoPagoEfectivo(): void {
     this.formaPago = 'efectivo';
     this.formTarjeta = this.fb.group({
-      nombreTarjeta: ['', [Validators.required,Validators.pattern('[a-zA-Z ]+$')]],
+      nombreTarjeta: [
+        '',
+        [Validators.required, Validators.pattern('[a-zA-Z ]+$')],
+      ],
       numeroTarjeta: [
         '',
         [Validators.required, Validators.pattern('^[45][0-9]{15}$')],
@@ -170,45 +194,27 @@ export class NavbarComponent implements OnInit {
       formaEntrega: ['', Validators.required],
     });
   }
-  guardar() {
-   
 
-    if (this.forma.status === 'INVALID') {
-      return;
-    }
-   
-    let monto: number = Math.floor(Math.random() * 10000) * 300 + 500;
-
-    this.precio = monto;
-
-
-    this.ocultar = false;
-  }
-
-  guardarArchivo(event: any) {
+  guardarImagenPedido(event: any): void {
     this.imagen = event.target.files[0];
     this.imagenCargada = true;
   }
 
-  get imagenNoValida() {
+  esImagenNoValida(): boolean {
     return this.imagenCargada &&
       (!this.imagen || this.imagen.size / (1024 * 1024) >= 5)
       ? true
       : false;
   }
 
-  confirmarDestino() {
-  
-
+  confirmarFormularioDestino(): void {
     if (
-      this.forma.status === 'VALID' && (!this.imagen || (this.imagen.size / (1024 * 1024) < 5))
+      this.formPedido.status === 'VALID' &&
+      (!this.imagen || this.imagen.size / (1024 * 1024) < 5)
     ) {
       this.ocultar = false;
-      let monto: number = (Math.floor(Math.random() *100 ) * 300 ) /100 +500;
-
+      let monto: number = (Math.floor(Math.random() * 100) * 300) / 100 + 500;
       this.precio = monto;
-
-      
     } else {
       Swal.fire({
         icon: 'error',
@@ -219,67 +225,50 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  get descripcionNoValida() {
+  esDescripcionPedidoNoValida(): boolean | undefined {
     return (
-      this.forma.get('descripcion')?.invalid &&
-      this.forma.get('descripcion')?.touched
+      this.formPedido.get('descripcion')?.invalid &&
+      this.formPedido.get('descripcion')?.touched
     );
   }
 
-  campoNoValido(campo: string) {
-    return this.forma.get(campo)?.invalid && this.forma.get(campo)?.touched;
+  esCampoPedidoNoValido(campo: string): boolean | undefined {
+    return this.formPedido.get(campo)?.invalid && this.formPedido.get(campo)?.touched;
   }
 
-  campoNoValidoTarjeta(campo: string) {
+  esCampoTarjetaNoValido(campo: string): boolean | undefined {
     return (
       this.formTarjeta.get(campo)?.invalid &&
       this.formTarjeta.get(campo)?.touched
     );
   }
 
-  campoEfectivo() {
+  esCampoEfectivoNoValido(): boolean | undefined {
     return (
       this.formEfectivo.get('monto')?.invalid &&
       this.formEfectivo.get('monto')?.touched
     );
   }
 
-  verificarCalleEntrega() {
-  
-
-    this.calleEntrega = this.forma.get('calleEntrega')?.value;
-
-    return (
-      this.forma.get('calleEntrega')?.invalid &&
-      this.forma.get('calleEntrega')?.touched
-    );
-  }
-
-  modoEntrega(modo: string) {
+  elegirModoEntrega(modo: string): void {
     this.modo = modo;
   }
 
-  validarMonto() {
-   let montoTemporal= parseFloat(this.formEfectivo.get('monto')?.value);   
-    // let monto: number = this.formEfectivo.get('monto')?.value;
-
-  
+  esMontoIngresadoValido(): boolean {
+    let montoTemporal = parseFloat(this.formEfectivo.get('monto')?.value);
     return montoTemporal < this.precio;
   }
 
-  calculoPrecio() {
-    if (this.forma.get('calculoEntrega') != null) {
-  
-    }
-  }
-
-  volverMostrarFormulario() {
+  volverMostrarFormulario(): void {
     this.ocultar = true;
     this.precio = 0;
     this.formaPago = '';
     this.modo = '';
     this.formTarjeta = this.fb.group({
-      nombreTarjeta: ['', [Validators.required,Validators.pattern('[a-zA-Z ]+$')]],
+      nombreTarjeta: [
+        '',
+        [Validators.required, Validators.pattern('[a-zA-Z ]+$')],
+      ],
       numeroTarjeta: [
         '',
         [Validators.required, Validators.pattern('^[45][0-9]{15}$')],
@@ -292,33 +281,26 @@ export class NavbarComponent implements OnInit {
     });
 
     this.formEfectivo = this.fb.group({
-      monto: ['', [Validators.required,Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')]],
+      monto: [
+        '',
+        [Validators.required, Validators.pattern('[0-9]+|[0-9]+[,.]+[0-9]+')],
+      ],
       fechaEntregaPedido: [''],
       horaEntrega: [''],
       formaEntrega: ['', Validators.required],
     });
   }
 
-  confirmarPedidoTarjeta() {
-
-
+  confirmarPedidoTarjeta(): void {
     if (this.formTarjeta.status === 'VALID') {
       if (this.formTarjeta.get('formaEntrega')?.value === '1') {
-       
         this.alerta();
         return;
       }
-
-      // fechaEntregaPedido: ['', ],
-      // horaEntrega: ['',],
-
-
       if (
         this.formTarjeta.get('fechaEntregaPedido')?.value != '' &&
         this.formTarjeta.get('horaEntrega')?.value != ''
       ) {
-    
-
         this.alerta();
       } else {
         Swal.fire({
@@ -338,26 +320,16 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  confirmarPedidoEfectivo() {
-   
+  confirmarPedidoEfectivo(): void {
     if (this.formEfectivo.status === 'VALID') {
       if (this.formEfectivo.get('formaEntrega')?.value === '1') {
-       
         this.alerta();
         return;
       }
-
-      // fechaEntregaPedido: ['', ],
-      // horaEntrega: ['',],
-
-    
-
       if (
         this.formEfectivo.get('fechaEntregaPedido')?.value != '' &&
         this.formEfectivo.get('horaEntrega')?.value != ''
       ) {
-       
-
         this.alerta();
       } else {
         Swal.fire({
@@ -377,15 +349,15 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  alerta() {
+  alerta(): void {
     Swal.fire({
       title: 'Esta seguro de confirmar?',
       text:
-        this.forma.get('descripcion')?.value +
+        this.formPedido.get('descripcion')?.value +
         ' sera enviado a ' +
-        this.forma.get('calleEntrega')?.value +
+        this.formPedido.get('calleEntrega')?.value +
         ' ' +
-        this.forma.get('numeroEntrega')?.value,
+        this.formPedido.get('numeroEntrega')?.value,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
